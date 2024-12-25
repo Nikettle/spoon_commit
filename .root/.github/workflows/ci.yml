@@ -1,0 +1,44 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - main
+      - feature/*
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Step
+        run: echo "Hello, ${{ github.actor }}!"
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Test Step 1
+        run: echo "This job tests something"
+
+      - name: Test Step 2
+        run: |
+          echo "This job tests something, but takes more time."
+          sleep 20
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy Step
+        run: echo "Deploying branch ${{ github.ref_name }}"
